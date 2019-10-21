@@ -1,0 +1,57 @@
+@import "./core/variables";
+
+.poke {
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-row-gap: 10px;
+    justify-items: center;
+
+    @media all and(min-width:$S) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media all and(min-width: $L) {
+      grid-template-columns: (repeat(4, 1fr)); // Doesn't work without () ??
+    }
+
+    &_item {
+      min-width: 75%;
+      background: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 0 1px rgba(208, 216, 223, 1);
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0 0 2px rgba(67, 192, 254, 1);
+        .poke__list_types_typeslist {
+          background: #e3f2ff;
+          border-top-color: #43c0fe;
+        }
+      }
+    }
+    &_types {
+      &_typeslist {
+        display: flex;
+        flex-flow: row nowrap;
+        background: #eee;
+        border-top: 1px solid #ddd;
+        border-radius: 0 0 5px 5px;
+        transition: all 0.25s ease;
+      }
+      &_itemtypes {
+        flex-grow: 1;
+      }
+    }
+    &_number {
+      position: relative;
+      top: -70px;
+      left: -30px;
+      font-weight: bold;
+      font-size: 12px;
+      padding: 5px;
+      border-radius: 50%;
+      background: #eee;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import getDataFromServer from '../services/getDataFromServer';
 import PokeList from './PokeList';
-import '../App.css';
+import '../stylesheets/App.scss';
 
 class App extends React.Component {
   constructor(props) {

@@ -1,5 +1,7 @@
 import React from 'react';
-import ListItem from './ListItem'
+import ListItem from './ListItem';
+import '../stylesheets/pokeitem.scss';
+
 
 const PokeList = ({ pokemons }) => {
     return (

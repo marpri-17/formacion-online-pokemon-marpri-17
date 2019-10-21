@@ -21,7 +21,7 @@ function getDataFromServer() {
             return fetch(pokemon.url)
                 .then(resp => resp.json())
                 .then(data => {
-                    console.log(data)
+                    //console.log(data)
                     let types = data.types.map(type => type.type.name)
                     let newPoke = { name: data.name, frontImage: data.sprites.front_default, frontImageShiny: data.sprites.front_shiny, id: data.id, types: types }
                     return newPoke
