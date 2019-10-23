@@ -1,0 +1,28 @@
+.filter {
+  &__suggestions {
+    &_list {
+      max-height: 5rem;
+      overflow-y: auto;
+
+      &_item {
+        transition: all 0.4s;
+        &:hover {
+          background-color: rgba(67, 192, 254, 0.8);
+        }
+      }
+    }
+    &_inputName {
+      margin-top: 18px;
+      border: 1px solid rgba(67, 192, 254, 0.8);
+      transition: all 0.25s ease;
+      &:focus {
+        border: 1px solid rgba(67, 192, 254, 1);
+        background-color: rgba(67, 192, 254, 0.2);
+      }
+    }
+  }
+}
+
+// .hidden {
+//   display: none;
+// }

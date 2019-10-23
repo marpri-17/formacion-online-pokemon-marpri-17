@@ -2,6 +2,7 @@ import React from 'react';
 import getDataFromServer from '../services/getDataFromServer';
 import PokeList from './PokeList';
 import '../stylesheets/App.scss';
+import FilterName from './FilterName';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,12 +12,19 @@ class App extends React.Component {
     }
   }
 
+  handleSearchName(ev) {
+    debugger;
+    ev.preventDefault();
+    const inputValue = ev.currentTarget.firstChild.value;
+    console.log(inputValue)
+  }
+
   componentDidMount() {
     getDataFromServer()
       .then(result => Promise.all(result))
       .then(pokemons => this.setState({
-        pokemons: [...this.state.pokemons, ...pokemons]
-      }))
+        pokemons: pokemons
+      }));
   }
 
   render() {
@@ -26,9 +34,7 @@ class App extends React.Component {
         <header className="App-header">
           <h1 className="poke__title">Pokédex</h1>
         </header>
-        <form className="poke__form">
-          <input type="text" />
-        </form>
+        <FilterName handleSearchName={this.handleSearchName} />
         <section className="poke__main">
           {pokemons.length > 0 ? <PokeList pokemons={pokemons} /> : "Cargando..."}
         </section>

@@ -1,0 +1,62 @@
+import React from 'react';
+import getNamesSuggestions from '../services/getNamesSuggestions';
+import '../stylesheets/filtername.scss';
+
+class FilterName extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            namesSuggestions: [],
+            userQuery: "",
+        }
+        this.showSuggestions = this.showSuggestions.bind(this);
+        this.FilterByName = this.FilterByName.bind(this)
+    }
+
+    showSuggestions() {
+        const { namesSuggestions, userQuery } = this.state;
+        if (namesSuggestions.length !== 0) {
+            return (
+                <ul className="filter__suggestions_list">
+                    {this.state.namesSuggestions
+                        .filter(suggestion => suggestion.includes(userQuery.toLowerCase()))
+                        .map(suggestion => {
+                            return <li className="filter__suggestions_list_item" key={suggestion} >{suggestion}</li>
+                        })}
+                </ul>
+            )
+        }
+    }
+
+    FilterByName(ev) {
+        const userSearch = ev.target.value;
+        this.setState({
+            userQuery: userSearch
+        })
+        console.log(ev)
+    }
+
+    componentDidMount() {
+        debugger;
+        getNamesSuggestions()
+            .then(suggestions => this.setState({
+                namesSuggestions: suggestions
+            }))
+    }
+
+    render() {
+        const { props } = this;
+        const { userQuery } = this.state;
+        console.log(this.state)
+        return (
+            <form className="poke__form" onSubmit={props.handleSearchName}>
+                <React.Fragment>
+                    <input type="text" className="filter__suggestions_inputName" onChange={this.FilterByName} />
+                    {(userQuery !== "") ? this.showSuggestions() : ""}</React.Fragment>
+                <button type="submit"> Buscar </button>
+            </form>
+        )
+    }
+}
+
+export default FilterName;
