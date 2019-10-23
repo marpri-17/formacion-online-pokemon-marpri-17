@@ -1,5 +1,5 @@
 
-const pokeUrlLimit25 = "https://pokeapi.co/api/v2/pokemon?limit=25&offset=0"
+const pokeUrlLimit25 = "https://pokeapi.co/api/v2/pokemon?limit=28&offset=0"
 
 const formatData = data => {
     const PokemonsInfo = data.results.map(poke => {

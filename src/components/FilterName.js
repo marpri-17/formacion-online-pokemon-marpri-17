@@ -50,10 +50,11 @@ class FilterName extends React.Component {
         console.log(this.state)
         return (
             <form className="poke__form" onSubmit={props.handleSearchName}>
-                <React.Fragment>
-                    <input type="text" className="filter__suggestions_inputName" onChange={this.FilterByName} />
-                    {(userQuery !== "") ? this.showSuggestions() : ""}</React.Fragment>
                 <button type="submit"> Buscar </button>
+                <div className="filter__suggestions_inputName_wrapper">
+                    <input type="text" className="filter__suggestions_inputName" onChange={this.FilterByName} placeholder="pikachu" /><label className="filter__suggestions_inputName_label">Ej: Pikachu</label>
+                    {(userQuery !== "") ? this.showSuggestions() : ""}
+                </div>
             </form>
         )
     }

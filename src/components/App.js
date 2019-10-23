@@ -34,10 +34,12 @@ class App extends React.Component {
         <header className="App-header">
           <h1 className="poke__title">Pokédex</h1>
         </header>
-        <FilterName handleSearchName={this.handleSearchName} />
-        <section className="poke__main">
-          {pokemons.length > 0 ? <PokeList pokemons={pokemons} /> : "Cargando..."}
-        </section>
+        <div className="poke__main_wrapper">
+          <FilterName handleSearchName={this.handleSearchName} />
+          <section className="poke__main">
+            {pokemons.length > 0 ? <PokeList pokemons={pokemons} /> : "Cargando..."}
+          </section>
+        </div>
       </div>
     );
   }

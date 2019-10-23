@@ -1,8 +1,11 @@
 .filter {
   &__suggestions {
     &_list {
+      margin-top: 0px;
       max-height: 5rem;
       overflow-y: auto;
+      display: block;
+      box-sizing: border-box;
 
       &_item {
         transition: all 0.4s;
@@ -13,11 +16,39 @@
     }
     &_inputName {
       margin-top: 18px;
-      border: 1px solid rgba(67, 192, 254, 0.8);
+      //border: 1px solid rgba(67, 192, 254, 0.8);
+      padding: 8px;
+      border: 0;
+      border-bottom: 1px groove rgba(0, 0, 0, 0.7);
+      letter-spacing: 0.02rem;
+      font-size: 16px;
+
       transition: all 0.25s ease;
+      &_wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &::placeholder {
+        color: transparent;
+        transition: all 0.2s;
+      }
       &:focus {
         border: 1px solid rgba(67, 192, 254, 1);
         background-color: rgba(67, 192, 254, 0.2);
+        &::placeholder {
+          color: rgba(0, 0, 0, 0.7);
+          font-weight: bold;
+          letter-spacing: 0.03rem;
+        }
+      }
+      &:focus + label {
+        display: none;
+      }
+      &_label {
+        margin-top: 5px;
+        text-align: left;
+        transition: all 0.5s ease;
       }
     }
   }

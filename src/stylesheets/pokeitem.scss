@@ -1,6 +1,24 @@
 @import "./core/variables";
 
 .poke {
+  &__main {
+    width: 100%;
+    &_wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+  }
+
+  &__form {
+    width: 45vw;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0px 0 15px;
+    @media all and(min-width:$L) {
+      width: 30vw;
+    }
+  }
+
   &__list {
     display: grid;
     grid-template-columns: 1fr;
@@ -16,7 +34,7 @@
     }
 
     &_item {
-      min-width: 75%;
+      min-width: 55%;
       background: #fff;
       border-radius: 5px;
       cursor: pointer;
@@ -47,12 +65,21 @@
     &_number {
       position: relative;
       top: -70px;
-      left: -30px;
+      left: -10px;
       font-weight: bold;
       font-size: 12px;
       padding: 5px;
       border-radius: 50%;
       background: #eee;
+      @media all and(min-width:230px) {
+        left: 0;
+      }
+      @media all and (min-width: $M) {
+        left: -12px;
+      }
+      @media all and(min-width: $L) {
+        left: 0;
+      }
     }
   }
 }
