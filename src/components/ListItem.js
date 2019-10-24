@@ -2,7 +2,6 @@ import React from 'react';
 import '../stylesheets/pokeitem.scss';
 
 const ListItem = ({ pokemon }) => {
-
     return (
         <li className="poke__list_item">
             <small className="poke__list_number">{pokemon.id}</small>

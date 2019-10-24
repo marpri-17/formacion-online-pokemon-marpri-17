@@ -65,21 +65,16 @@
     &_number {
       position: relative;
       top: -70px;
-      left: -10px;
       font-weight: bold;
       font-size: 12px;
       padding: 5px;
       border-radius: 50%;
       background: #eee;
-      @media all and(min-width:230px) {
-        left: 0;
-      }
-      @media all and (min-width: $M) {
-        left: -12px;
-      }
-      @media all and(min-width: $L) {
-        left: 0;
-      }
     }
+    //   &_defaultimg {
+    //     object-fit: cover;
+    //     overflow: hidden;
+    //     width: 7rem;
+    //   }
   }
 }

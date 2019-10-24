@@ -1,63 +1,24 @@
 import React from 'react';
-import getNamesSuggestions from '../services/getNamesSuggestions';
 import '../stylesheets/filtername.scss';
+import { SuggestionsList } from './SuggestionsList';
 
-class FilterName extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            namesSuggestions: [],
-            userQuery: "",
-        }
-        this.showSuggestions = this.showSuggestions.bind(this);
-        this.FilterByName = this.FilterByName.bind(this)
-    }
+const FilterName = ({ handleSearch, allPokemonsNames, handleAutoSearch, userQuery, handleSuggestedName }) => {
 
-    showSuggestions() {
-        const { namesSuggestions, userQuery } = this.state;
-        if (namesSuggestions.length !== 0) {
-            return (
-                <ul className="filter__suggestions_list">
-                    {this.state.namesSuggestions
-                        .filter(suggestion => suggestion.includes(userQuery.toLowerCase()))
-                        .map(suggestion => {
-                            return <li className="filter__suggestions_list_item" key={suggestion} >{suggestion}</li>
-                        })}
-                </ul>
-            )
-        }
-    }
+    return (
+        <form className="poke__form" onSubmit={handleSearch}>
+            <button type="submit"> Buscar </button>
+            <div className="filter__suggestions_inputName_wrapper">
+                <input type="text" className="filter__suggestions_inputName" onChange={handleAutoSearch} placeholder="Pikachu" />
+                {(userQuery === "") ? <label className="filter__suggestions_inputName_label">Ej: Pikachu</label> : ""}
+                {(userQuery !== "") ? < SuggestionsList namesSuggestions={allPokemonsNames} userQuery={userQuery} handleSuggestedName={handleSuggestedName} /> : ""}
+            </div>
+        </form>
+    )
 
-    FilterByName(ev) {
-        const userSearch = ev.target.value;
-        this.setState({
-            userQuery: userSearch
-        })
-        console.log(ev)
-    }
-
-    componentDidMount() {
-        debugger;
-        getNamesSuggestions()
-            .then(suggestions => this.setState({
-                namesSuggestions: suggestions
-            }))
-    }
-
-    render() {
-        const { props } = this;
-        const { userQuery } = this.state;
-        console.log(this.state)
-        return (
-            <form className="poke__form" onSubmit={props.handleSearchName}>
-                <button type="submit"> Buscar </button>
-                <div className="filter__suggestions_inputName_wrapper">
-                    <input type="text" className="filter__suggestions_inputName" onChange={this.FilterByName} placeholder="pikachu" /><label className="filter__suggestions_inputName_label">Ej: Pikachu</label>
-                    {(userQuery !== "") ? this.showSuggestions() : ""}
-                </div>
-            </form>
-        )
-    }
 }
 
+
 export default FilterName;
+
+// Incluir defaultValue={defaultValue} en el input
+// Cuando tengamos default value, vincular la renderización de la etiqueta 
