@@ -25,5 +25,3 @@ const PokeList = ({ pokemons }) => {
 
 
 export default PokeList;
-
-{/*  */ }
