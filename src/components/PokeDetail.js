@@ -1,10 +1,29 @@
 import React from 'react';
+import getCompleteDataFromServer from '../services/getCompleteDataFromServer';
+import CardDetail from './CardDetail';
+import { isArray } from 'util';
 
-const PokeDetail = (pokeID) => {
-    console.log(pokeID)
-    return (
-        <p>Pokedetail</p>
-    )
+class PokeDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            pokemon: [],
+        }
+    }
+
+
+    componentDidMount() {
+        getCompleteDataFromServer(this.props.pokeID)
+            .then(pokeInfo => this.setState({
+                pokemon: pokeInfo
+            }, () => console.log(this.state)))
+    }
+
+    render() {
+        const { pokemon } = this.state;
+        console.log(this.state)
+        return isArray(pokemon) ? "Cargando info..." : <CardDetail pokemonObj={pokemon} />
+    }
 }
 
-export { PokeDetail as Info };
+export default PokeDetail;

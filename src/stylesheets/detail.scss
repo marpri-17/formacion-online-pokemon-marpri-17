@@ -1,0 +1,13 @@
+.detail {
+  &__wrapper {
+    //height: 100vh;
+    border: 2px blue solid;
+  }
+  &__image {
+    &_front {
+      width: 100px;
+      height: 110px;
+      background-position: cover;
+    }
+  }
+}

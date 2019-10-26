@@ -3,8 +3,8 @@ import getDataFromServer from '../services/getDataFromServer';
 import PokeList from './PokeList';
 import '../stylesheets/App.scss';
 import FilterName from './FilterName';
-import { Route, Switch } from 'react-router-dom';
-import { Info } from './PokeDetail';
+import { Route, Switch, Link } from 'react-router-dom';
+import PokeDetail from './PokeDetail';
 import getDetailsFromServer from '../services/getDetailsFromServer';
 
 
@@ -20,6 +20,7 @@ class App extends React.Component {
     this.handleSuggestedName = this.handleSuggestedName.bind(this);
     this.handleAutoSearch = this.handleAutoSearch.bind(this);
     this.renderExploreList = this.renderExploreList.bind(this);
+    this.renderDetail = this.renderDetail.bind(this);
   }
 
   handleSuggestedName(pokemonName) {
@@ -60,7 +61,11 @@ class App extends React.Component {
         detailPokemons: resp
       }, () => console.log(this.state)))
   }
-
+  componentDidUpdate() {
+    const prevState = this.state.detailPokemons
+    const nextState = this.state.detailPokemons;
+    return nextState === prevState ? false : true
+  }
   componentDidMount() {
     getDataFromServer()
       .then(pokes => Promise.all(pokes))
@@ -76,6 +81,7 @@ class App extends React.Component {
         const defaultPokemons = data.slice(0, this.state.limit);
         getDetailsFromServer(defaultPokemons)
           .then(pokes => this.formatPokemonData(pokes))
+          //.then(r => console.log(r))
           .then(detailspokes => this.setState({
             detailPokemons: detailspokes,
           }))
@@ -87,31 +93,30 @@ class App extends React.Component {
     return (<PokeList pokemons={detailPokemons} />)
   }
 
+  renderDetail(props) {
+    const selectedId = props.match.params.id;
+    return (<PokeDetail pokeID={selectedId} />)
+  }
+
 
   render() {
     const { allPokemons, userPokemon } = this.state;
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="poke__title">Pokédex</h1>
+          <Link to="/" >
+            <h1 className="poke__title">Pokédex</h1>
+          </Link>
         </header>
         <div className="poke__main_wrapper">
           <FilterName handleSearch={this.handleSearch} handleSuggestedName={this.handleSuggestedName} handleAutoSearch={this.handleAutoSearch} allPokemonsNames={allPokemons.map(poke => poke.name)} userQuery={userPokemon} />
           <section className="poke__main">
             <Switch>
               <Route exact path="/" render={this.renderExploreList} />
-              <Route path="info/:id" component={props => (<Info pokeID={props} />)} />
+              <Route path="/info/:id" render={this.renderDetail} />
             </Switch>
           </section>
         </div>
-        {/* <div className="poke__main_wrapper">
-          <section className="poke__main">
-            <Switch>
-              <Route exact path="/" render={this.renderExploreList} />
-              <Route path="info/:id" component={props => (<Info pokeID={props} />)} />
-            </Switch>
-          </section>
-        </div> */}
       </div>
     );
   }
