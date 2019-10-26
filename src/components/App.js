@@ -6,7 +6,6 @@ import FilterName from './FilterName';
 import { Route, Switch, Link } from 'react-router-dom';
 import PokeDetail from './PokeDetail';
 import getDetailsFromServer from '../services/getDetailsFromServer';
-import { promised } from 'q';
 
 
 class App extends React.Component {
@@ -39,12 +38,10 @@ class App extends React.Component {
   }
 
   handleAutoSearch(ev) {
-    debugger;
     const { allPokemons, limit } = this.state;
     this.setState({
       userPokemon: ev.target.value.toLowerCase()
     });
-    const newPokeforDetails = allPokemons.filter(poke => poke.name.includes(ev.target.value.toLowerCase()))
 
     // getDetailsFromServer(newPokeforDetails.slice(0, limit))
     //   .then(pokemons => pokemons.map(pokemon => fetch("https://pokeapi.co/api/v2/evolution-chain/" + pokemon.id))
@@ -55,11 +52,11 @@ class App extends React.Component {
     //   detailPokemons: resp
     // }, () => console.log(this.state)))
   }
-  componentDidUpdate() {
-    const prevState = this.state.detailPokemons
-    const nextState = this.state.detailPokemons;
-    return nextState === prevState ? false : true
-  }
+  // componentDidUpdate() {
+  //   const prevState = this.state.detailPokemons
+  //   const nextState = this.state.detailPokemons;
+  //   return nextState === prevState ? false : true
+  // }
   componentDidMount() {
     getDataFromServer()
       .then(pokes => Promise.all(pokes))
@@ -71,7 +68,6 @@ class App extends React.Component {
       }
       )
       .then(data => {
-        debugger;
         const defaultPokemons = data.slice(0, this.state.limit);
         return getDetailsFromServer(defaultPokemons)
       })
@@ -80,16 +76,15 @@ class App extends React.Component {
         return fetch(url)
           .then(resp => resp.json())
           .then(evolution => Object.assign(poke, evolution))
-        // .then(completePoke => console.log(completePoke))
       })))
       .then(completePokemons => this.setState({
         detailPokemons: completePokemons
-      }, () => console.log(this.state)))
+      }))
   }
 
   renderExploreList() {
     const { detailPokemons } = this.state;
-    return (<PokeList pokemons={detailPokemons} />)
+    return ((detailPokemons) ? <PokeList pokemons={detailPokemons} /> : "Cargando...")
   }
 
   renderDetail(props) {
