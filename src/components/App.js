@@ -104,7 +104,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Link to="/" >
+          <Link to="./" >
             <h1 className="poke__title">Pokédex</h1>
           </Link>
         </header>
@@ -112,7 +112,7 @@ class App extends React.Component {
           <FilterName handleSearch={this.handleSearch} handleSuggestedName={this.handleSuggestedName} handleAutoSearch={this.handleAutoSearch} allPokemonsNames={allPokemons.map(poke => poke.name)} userQuery={userPokemon} />
           <section className="poke__main">
             <Switch>
-              <Route exact path="/" render={this.renderExploreList} />
+              <Route exact path="./" render={this.renderExploreList} />
               <Route path="/info/:id" render={this.renderDetail} />
             </Switch>
           </section>
