@@ -12,16 +12,17 @@ class PokeDetail extends React.Component {
     }
 
 
-    componentDidMount() {
-        getCompleteDataFromServer(this.props.pokeID)
+    componentDidUpdate() {
+        debugger;
+        getCompleteDataFromServer(this.props.selectedPokemon)
             .then(pokeInfo => this.setState({
                 pokemon: pokeInfo
-            }, () => console.log(this.state)))
+            }))
     }
 
     render() {
+        console.log(this.props)
         const { pokemon } = this.state;
-        console.log(this.state)
         return isArray(pokemon) ? "Cargando info..." : <CardDetail pokemonObj={pokemon} />
     }
 }

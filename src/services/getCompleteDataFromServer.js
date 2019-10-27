@@ -17,8 +17,8 @@ async function formatDetails(pokemon) {
 
 }
 
-const getCompleteDataFromServer = (pokeID) => {
-    const PokemonByID = `https://pokeapi.co/api/v2/pokemon/${pokeID}`;
+const getCompleteDataFromServer = (pokeName) => {
+    const PokemonByID = `https://pokeapi.co/api/v2/pokemon/${pokeName}`;
     return fetch(PokemonByID)
         .then(resp => resp.json())
         .then(pokemon => formatDetails(pokemon))

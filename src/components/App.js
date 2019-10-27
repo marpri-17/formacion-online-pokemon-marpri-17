@@ -24,7 +24,6 @@ class App extends React.Component {
   }
 
   handleSuggestedName(pokemonName) {
-    debugger;
     //ev.preventDefault();
     this.setState({
       userPokemon: pokemonName.target.dataset.id,
@@ -38,19 +37,26 @@ class App extends React.Component {
   }
 
   handleAutoSearch(ev) {
-    const { allPokemons, limit } = this.state;
+    const { allPokemons, limit, userPokemon } = this.state;
     this.setState({
       userPokemon: ev.target.value.toLowerCase()
     });
-
-    // getDetailsFromServer(newPokeforDetails.slice(0, limit))
-    //   .then(pokemons => pokemons.map(pokemon => fetch("https://pokeapi.co/api/v2/evolution-chain/" + pokemon.id))
-    //     .then(resp => console.log(resp))
-    // 
-    // .then(poke => this.formatPokemonData(poke))
-    // .then(resp => this.setState({
-    //   detailPokemons: resp
-    // }, () => console.log(this.state)))
+    debugger;
+    const newPokeforDetails = allPokemons.filter(poke => poke.name.includes(ev.target.value.toLowerCase()));
+    getDetailsFromServer(newPokeforDetails.slice(0, limit))
+      .then(resp => Promise.all(resp.map(poke => {
+        const url = "https://pokeapi.co/api/v2/evolution-chain/" + poke.id;
+        return fetch(url)
+          .then(resp => resp.json())
+          .then(evolution => Object.assign(poke, evolution))
+          .catch(err => {
+            let noEvolve = { evolution: "No evoluciona" };
+            return Object.assign(poke, noEvolve)
+          })
+      }))
+        .then(completePokemons => this.setState({
+          detailPokemons: completePokemons
+        })))
   }
   // componentDidUpdate() {
   //   const prevState = this.state.detailPokemons
@@ -84,12 +90,13 @@ class App extends React.Component {
 
   renderExploreList() {
     const { detailPokemons } = this.state;
-    return ((detailPokemons) ? <PokeList pokemons={detailPokemons} /> : "Cargando...")
+    return ((detailPokemons.length !== 0) ? <PokeList pokemons={detailPokemons} /> : "Cargando...")
   }
 
   renderDetail(props) {
-    const selectedId = props.match.params.id;
-    return (<PokeDetail pokeID={selectedId} />)
+    console.log(props)
+    const selectedName = props.match.params.name;
+    return (<PokeDetail selectedPokemon={selectedName} />)
   }
 
 
@@ -103,11 +110,11 @@ class App extends React.Component {
           </Link>
         </header>
         <div className="poke__main_wrapper">
-          <FilterName handleSearch={this.handleSearch} handleSuggestedName={this.handleSuggestedName} handleAutoSearch={this.handleAutoSearch} allPokemonsNames={allPokemons.map(poke => poke.name)} userQuery={userPokemon} />
+          <FilterName handleSearch={this.handleSearch} handleSuggestedName={this.handleSuggestedName} handleAutoSearch={this.handleAutoSearch} allPokemonsNames={allPokemons.map(poke => [poke.id, poke.name])} userQuery={userPokemon} />
           <section className="poke__main">
             <Switch>
               <Route exact path="/" render={this.renderExploreList} />
-              <Route path="/info/:id" render={this.renderDetail} />
+              <Route path="/info/:name" render={this.renderDetail} />
             </Switch>
           </section>
         </div>

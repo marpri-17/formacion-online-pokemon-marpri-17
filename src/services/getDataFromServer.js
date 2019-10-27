@@ -2,8 +2,9 @@
 const allPokesResume = "https://pokeapi.co/api/v2/pokemon?limit=964";
 
 const formatData = data => {
-    const PokemonsInfo = data.results.map(poke => {
+    const PokemonsInfo = data.results.map((poke, index) => {
         return {
+            id: index,
             name: poke.name,
             url: poke.url
         }

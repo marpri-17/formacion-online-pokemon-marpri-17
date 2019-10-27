@@ -6,6 +6,7 @@ async function getEvolutionFromServer(pokemon) {
             (evolutionChain.length !== 0) ?
                 evolutionChain.map(evolution => evolution.species.name) :
                 ["No evoluciona"]))
+        .catch(err => ["No evoluciona"])
     //.then(respo => Promise.all(respo))
 }
 export default getEvolutionFromServer;

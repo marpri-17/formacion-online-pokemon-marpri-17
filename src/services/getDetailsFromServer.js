@@ -12,12 +12,9 @@ function formatPokemonData(data) {
 }
 
 function getDetailsFromServer(resumePokes) {
-    debugger;
     const pokesInfo = Promise.all(resumePokes.map(poke => fetch(poke.url).then(resp => resp.json())));
     return pokesInfo
         .then(data => formatPokemonData(data))
-    //.then(formatedPokes => console.log(formatedPokes))
-    // .then(resp => resp.json())
 }
 
 export default getDetailsFromServer;
