@@ -89,6 +89,7 @@ class App extends React.Component {
   }
 
   renderExploreList() {
+    debugger;
     const { detailPokemons } = this.state;
     return ((detailPokemons.length !== 0) ? <PokeList pokemons={detailPokemons} /> : "Cargando...")
   }
@@ -113,7 +114,7 @@ class App extends React.Component {
           <FilterName handleSearch={this.handleSearch} handleSuggestedName={this.handleSuggestedName} handleAutoSearch={this.handleAutoSearch} allPokemonsNames={allPokemons.map(poke => [poke.id, poke.name])} userQuery={userPokemon} />
           <section className="poke__main">
             <Switch>
-              <Route exact path="./" render={this.renderExploreList} />
+              <Route exact path="/" render={this.renderExploreList} />
               <Route path="/info/:name" render={this.renderDetail} />
             </Switch>
           </section>
