@@ -6,7 +6,6 @@ const FilterName = ({ handleSearch, allPokemonsNames, handleAutoSearch, userQuer
 
     return (
         <form className="poke__form" onSubmit={handleSearch}>
-            <button type="submit"> Buscar </button>
             <div className="filter__suggestions_inputName_wrapper">
                 <input type="text" className="filter__suggestions_inputName" onChange={handleAutoSearch} placeholder="Pikachu" />
                 {(userQuery === "") ? <label className="filter__suggestions_inputName_label">Ej: Pikachu</label> : ""}

@@ -1,20 +1,22 @@
-function formatPokemonData(data) {
-    return data.map(pokemon => {
-        let newTypes = pokemon.types.map(type => type.type.name)
-        return {
-            id: pokemon.id,
-            name: pokemon.name,
-            frontImage: pokemon.sprites.front_default || `https://via.placeholder.com/100.jpg?${pokemon.name}`,
-            shinyImage: pokemon.sprites.front_shiny || `https://via.placeholder.com/100.jpg?${pokemon.name}`,
-            types: newTypes,
-        }
-    })
+function formatData(data) {
+
+    return {
+        id: data.id,
+        name: data.name,
+        evolution: data.evolution_chain.url,
+        url: data.varieties.map(variety => {
+            if (variety.is_default) return variety.pokemon.url
+        }).join()
+    }
 }
 
-function getDetailsFromServer(resumePokes) {
-    const pokesInfo = Promise.all(resumePokes.map(poke => fetch(poke.url).then(resp => resp.json())));
-    return pokesInfo
-        .then(data => formatPokemonData(data))
+async function getDetailsFromServer(pokemon) {
+    debugger;
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
+    return fetch(url)
+        .then(resp => resp.json())
+        .then(data => formatData(data))
+    // .then(dat => console.log(dat))
 }
 
 export default getDetailsFromServer;

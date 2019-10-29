@@ -2,6 +2,7 @@ import React from 'react';
 import getCompleteDataFromServer from '../services/getCompleteDataFromServer';
 import CardDetail from './CardDetail';
 import { isArray } from 'util';
+import getDetailsFromServer from '../services/getDetailsFromServer';
 
 class PokeDetail extends React.Component {
     constructor(props) {
@@ -12,9 +13,9 @@ class PokeDetail extends React.Component {
     }
 
 
-    componentDidUpdate() {
+    componentDidMount() {
         debugger;
-        getCompleteDataFromServer(this.props.selectedPokemon)
+        getDetailsFromServer(this.props.selectedPokemon)
             .then(pokeInfo => this.setState({
                 pokemon: pokeInfo
             }))
@@ -23,6 +24,7 @@ class PokeDetail extends React.Component {
     render() {
         console.log(this.props)
         const { pokemon } = this.state;
+        console.log(pokemon)
         return isArray(pokemon) ? "Cargando info..." : <CardDetail pokemonObj={pokemon} />
     }
 }

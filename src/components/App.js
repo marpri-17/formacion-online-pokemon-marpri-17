@@ -6,6 +6,7 @@ import FilterName from './FilterName';
 import { Route, Switch, Link } from 'react-router-dom';
 import PokeDetail from './PokeDetail';
 import getDetailsFromServer from '../services/getDetailsFromServer';
+import getCompleteDataFromServer from '../services/getCompleteDataFromServer';
 
 
 class App extends React.Component {
@@ -17,19 +18,10 @@ class App extends React.Component {
       detailPokemons: [],
       limit: 24,
     }
-    this.handleSuggestedName = this.handleSuggestedName.bind(this);
     this.handleAutoSearch = this.handleAutoSearch.bind(this);
     this.renderExploreList = this.renderExploreList.bind(this);
     this.renderDetail = this.renderDetail.bind(this);
   }
-
-  handleSuggestedName(pokemonName) {
-    //ev.preventDefault();
-    this.setState({
-      userPokemon: pokemonName.target.dataset.id,
-    })
-  }
-
 
   handleSearch(ev) {
     ev.preventDefault();
@@ -41,22 +33,8 @@ class App extends React.Component {
     this.setState({
       userPokemon: ev.target.value.toLowerCase()
     });
-    debugger;
     const newPokeforDetails = allPokemons.filter(poke => poke.name.includes(ev.target.value.toLowerCase()));
-    getDetailsFromServer(newPokeforDetails.slice(0, limit))
-      .then(resp => Promise.all(resp.map(poke => {
-        const url = "https://pokeapi.co/api/v2/evolution-chain/" + poke.id;
-        return fetch(url)
-          .then(resp => resp.json())
-          .then(evolution => Object.assign(poke, evolution))
-          .catch(err => {
-            let noEvolve = { evolution: "No evoluciona" };
-            return Object.assign(poke, noEvolve)
-          })
-      }))
-        .then(completePokemons => this.setState({
-          detailPokemons: completePokemons
-        })))
+    getCompleteDataFromServer([newPokeforDetails])
   }
   // componentDidUpdate() {
   //   const prevState = this.state.detailPokemons
@@ -75,21 +53,14 @@ class App extends React.Component {
       )
       .then(data => {
         const defaultPokemons = data.slice(0, this.state.limit);
-        return getDetailsFromServer(defaultPokemons)
+        return getCompleteDataFromServer(defaultPokemons)
       })
-      .then(resp => Promise.all(resp.map(poke => {
-        const url = "https://pokeapi.co/api/v2/evolution-chain/" + poke.id;
-        return fetch(url)
-          .then(resp => resp.json())
-          .then(evolution => Object.assign(poke, evolution))
-      })))
-      .then(completePokemons => this.setState({
-        detailPokemons: completePokemons
+      .then(formatedPokes => this.setState({
+        detailPokemons: formatedPokes
       }))
   }
 
   renderExploreList() {
-    debugger;
     const { detailPokemons } = this.state;
     return ((detailPokemons.length !== 0) ? <PokeList pokemons={detailPokemons} /> : "Cargando...")
   }
